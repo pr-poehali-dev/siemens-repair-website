@@ -1,14 +1,19 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useToast } from '@/hooks/use-toast';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+
+const SUBMIT_URL = 'https://functions.poehali.dev/b16b35fe-8e61-417a-b0ea-c00eda3edfa3';
 
 const HERO_IMG =
   'https://cdn.poehali.dev/projects/6737e19d-4ad6-4e45-999c-e2ac4aa0d438/files/81f896dc-1100-4eb9-9b72-e14a6972389c.jpg';
@@ -77,6 +82,45 @@ const faq = [
 
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { toast } = useToast();
+  const [form, setForm] = useState({ name: '', phone: '', appliance: '', message: '' });
+  const [consent, setConsent] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const updateField = (key: string, value: string) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.phone.trim()) {
+      toast({ title: 'Заполните имя и телефон', variant: 'destructive' });
+      return;
+    }
+    if (!consent) {
+      toast({ title: 'Подтвердите согласие на обработку данных', variant: 'destructive' });
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch(SUBMIT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, consent }),
+      });
+      if (!res.ok) throw new Error('fail');
+      toast({ title: 'Заявка отправлена!', description: 'Перезвоним в течение 5 минут.' });
+      setForm({ name: '', phone: '', appliance: '', message: '' });
+      setConsent(false);
+    } catch {
+      toast({
+        title: 'Не удалось отправить',
+        description: 'Позвоните нам: 8 800 123-45-67',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -460,17 +504,51 @@ const Index = () => {
 
           <div className="rounded-3xl bg-background p-8 shadow-2xl">
             <h3 className="font-display text-xl font-bold text-siemens-dark">Вызвать мастера</h3>
-            <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <Input placeholder="Ваше имя" />
-              <Input placeholder="Телефон" type="tel" />
-              <Input placeholder="Модель техники (необязательно)" />
-              <Textarea placeholder="Опишите неисправность" rows={3} />
-              <Button type="submit" size="lg" className="w-full bg-siemens text-base font-semibold hover:bg-siemens-dark">
-                Отправить заявку
+            <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+              <Input
+                placeholder="Ваше имя"
+                value={form.name}
+                onChange={(e) => updateField('name', e.target.value)}
+              />
+              <Input
+                placeholder="Телефон"
+                type="tel"
+                value={form.phone}
+                onChange={(e) => updateField('phone', e.target.value)}
+              />
+              <Input
+                placeholder="Модель техники (необязательно)"
+                value={form.appliance}
+                onChange={(e) => updateField('appliance', e.target.value)}
+              />
+              <Textarea
+                placeholder="Опишите неисправность"
+                rows={3}
+                value={form.message}
+                onChange={(e) => updateField('message', e.target.value)}
+              />
+              <div className="flex items-start gap-2.5">
+                <Checkbox
+                  id="consent"
+                  checked={consent}
+                  onCheckedChange={(v) => setConsent(v === true)}
+                  className="mt-0.5"
+                />
+                <label htmlFor="consent" className="text-xs leading-snug text-muted-foreground">
+                  Я согласен на обработку персональных данных и принимаю{' '}
+                  <Link to="/privacy" className="text-siemens underline hover:text-siemens-dark">
+                    политику конфиденциальности
+                  </Link>
+                </label>
+              </div>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={loading}
+                className="w-full bg-siemens text-base font-semibold hover:bg-siemens-dark"
+              >
+                {loading ? 'Отправляем…' : 'Отправить заявку'}
               </Button>
-              <p className="text-center text-xs text-muted-foreground">
-                Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-              </p>
             </form>
           </div>
         </div>
@@ -512,8 +590,11 @@ const Index = () => {
           </div>
         </div>
         <div className="border-t border-white/10">
-          <div className="container py-6 text-center text-xs text-white/50">
-            © 2026 Сервисный центр Siemens. Не является официальным представителем Siemens AG.
+          <div className="container flex flex-col items-center justify-center gap-2 py-6 text-center text-xs text-white/50 sm:flex-row sm:gap-4">
+            <span>© 2026 Сервисный центр Siemens. Не является официальным представителем Siemens AG.</span>
+            <Link to="/privacy" className="underline hover:text-white">
+              Политика конфиденциальности
+            </Link>
           </div>
         </div>
       </footer>

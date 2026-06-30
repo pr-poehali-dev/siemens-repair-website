@@ -1,0 +1,24 @@
+{
+  "tests": [
+    {
+      "name": "CORS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Reject without consent",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Тест", "phone": "+79991234567", "consent": false},
+      "expectedStatus": 400
+    },
+    {
+      "name": "Reject without name",
+      "method": "POST",
+      "path": "/",
+      "body": {"phone": "+79991234567", "consent": true},
+      "expectedStatus": 400
+    }
+  ]
+}
