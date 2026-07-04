@@ -4,7 +4,6 @@ import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import {
   Accordion,
@@ -78,7 +77,6 @@ const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { toast } = useToast();
   const [form, setForm] = useState({ name: '', phone: '', appliance: '', message: '' });
-  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const updateField = (key: string, value: string) =>
@@ -90,21 +88,16 @@ const Index = () => {
       toast({ title: 'Заполните имя и телефон', variant: 'destructive' });
       return;
     }
-    if (!consent) {
-      toast({ title: 'Подтвердите согласие на обработку данных', variant: 'destructive' });
-      return;
-    }
     setLoading(true);
     try {
       const res = await fetch(SUBMIT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, consent }),
+        body: JSON.stringify({ ...form, consent: true }),
       });
       if (!res.ok) throw new Error('fail');
       toast({ title: 'Заявка отправлена!', description: 'Перезвоним в течение 5 минут.' });
       setForm({ name: '', phone: '', appliance: '', message: '' });
-      setConsent(false);
     } catch {
       toast({
         title: 'Не удалось отправить',
@@ -488,20 +481,6 @@ const Index = () => {
                 value={form.message}
                 onChange={(e) => updateField('message', e.target.value)}
               />
-              <div className="flex items-start gap-2.5">
-                <Checkbox
-                  id="consent"
-                  checked={consent}
-                  onCheckedChange={(v) => setConsent(v === true)}
-                  className="mt-0.5"
-                />
-                <label htmlFor="consent" className="text-xs leading-snug text-muted-foreground">
-                  Я согласен на обработку персональных данных и принимаю{' '}
-                  <Link to="/privacy" className="text-siemens underline hover:text-siemens-dark">
-                    политику конфиденциальности
-                  </Link>
-                </label>
-              </div>
               <Button
                 type="submit"
                 size="lg"
@@ -510,6 +489,12 @@ const Index = () => {
               >
                 {loading ? 'Отправляем…' : 'Отправить заявку'}
               </Button>
+              <p className="text-xs leading-snug text-muted-foreground">
+                Нажимая на кнопку, вы даёте согласие на обработку персональных данных и принимаете{' '}
+                <Link to="/privacy" className="text-siemens underline hover:text-siemens-dark">
+                  политику конфиденциальности
+                </Link>
+              </p>
             </form>
           </div>
         </div>
