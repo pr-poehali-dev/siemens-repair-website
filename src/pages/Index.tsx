@@ -533,6 +533,7 @@ const Index = () => {
         <div className="border-t border-white/10">
           <div className="container flex flex-col items-center justify-center gap-2 py-6 text-center text-xs text-white/50 sm:flex-row sm:gap-4">
             <span>© 2014 Сервисный центр Siemens.</span>
+            <span>Информация на сайте не является публичной офертой.</span>
             <Link to="/privacy" className="underline hover:text-white">
               Политика конфиденциальности
             </Link>
