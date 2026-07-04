@@ -216,7 +216,6 @@ const Index = () => {
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
               {[
                 { n: '12 000+', t: 'ремонтов' },
-                { n: '4.9', t: 'рейтинг клиентов' },
                 { n: '9:00–22:00', t: 'без выходных' },
               ].map((s) => (
                 <div key={s.t}>
