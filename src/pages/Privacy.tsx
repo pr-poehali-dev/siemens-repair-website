@@ -82,7 +82,7 @@ const Privacy = () => {
 
       <footer className="border-t border-border bg-siemens-dark py-6">
         <div className="container text-center text-xs text-white/50">
-          © 2026 Сервисный центр Siemens. Не является официальным представителем Siemens AG.
+          © 2014 Сервисный центр Siemens.
         </div>
       </footer>
     </div>

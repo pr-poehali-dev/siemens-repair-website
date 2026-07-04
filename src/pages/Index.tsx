@@ -440,8 +440,6 @@ const Index = () => {
             <div className="mt-10 space-y-5">
               {[
                 { icon: 'Phone', t: '7 (499) 638-27-51', s: 'Бесплатно по России' },
-                { icon: 'Mail', t: 'service@siemens-repair.ru', s: 'Ответим в течение часа' },
-                { icon: 'MapPin', t: 'Москва, ул. Примерная, 12', s: 'Ежедневно 8:00 – 22:00' },
               ].map((c) => (
                 <div key={c.t} className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/15">
@@ -506,7 +504,7 @@ const Index = () => {
           <div>
             <span className="font-display text-2xl font-extrabold text-white">SIEMENS</span>
             <p className="mt-3 text-sm">
-              Независимый сервисный центр по ремонту бытовой техники Siemens.
+              Центральный сервисный центр по ремонту бытовой техники Siemens.
             </p>
           </div>
           <div>
@@ -529,14 +527,12 @@ const Index = () => {
             <h4 className="font-display font-bold text-white">Контакты</h4>
             <ul className="mt-3 space-y-2 text-sm">
               <li>7 (499) 638-27-51</li>
-              <li>service@siemens-repair.ru</li>
-              <li>Москва, ул. Примерная, 12</li>
             </ul>
           </div>
         </div>
         <div className="border-t border-white/10">
           <div className="container flex flex-col items-center justify-center gap-2 py-6 text-center text-xs text-white/50 sm:flex-row sm:gap-4">
-            <span>© 2026 Сервисный центр Siemens. Не является официальным представителем Siemens AG.</span>
+            <span>© 2014 Сервисный центр Siemens.</span>
             <Link to="/privacy" className="underline hover:text-white">
               Политика конфиденциальности
             </Link>
