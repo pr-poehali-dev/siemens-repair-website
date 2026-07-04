@@ -101,7 +101,7 @@ const Index = () => {
     } catch {
       toast({
         title: 'Не удалось отправить',
-        description: 'Позвоните нам: 8 800 123-45-67',
+        description: 'Позвоните нам: 7 (499) 638-27-51',
         variant: 'destructive',
       });
     } finally {
@@ -136,10 +136,10 @@ const Index = () => {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a href="tel:+78001234567" className="hidden text-right md:block">
+            <a href="tel:+74996382751" className="hidden text-right md:block">
               <span className="block text-xs text-muted-foreground">Звоните сейчас</span>
               <span className="block font-display text-base font-bold text-siemens-dark">
-                8 800 123-45-67
+                7 (499) 638-27-51
               </span>
             </a>
             <Button asChild className="hidden bg-siemens font-semibold hover:bg-siemens-dark sm:inline-flex">
@@ -197,7 +197,7 @@ const Index = () => {
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-siemens text-base font-semibold text-siemens-dark hover:bg-siemens-light">
-                <a href="tel:+78001234567">8 800 123-45-67</a>
+                <a href="tel:+74996382751">7 (499) 638-27-51</a>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
@@ -439,7 +439,7 @@ const Index = () => {
             </p>
             <div className="mt-10 space-y-5">
               {[
-                { icon: 'Phone', t: '8 800 123-45-67', s: 'Бесплатно по России' },
+                { icon: 'Phone', t: '7 (499) 638-27-51', s: 'Бесплатно по России' },
                 { icon: 'Mail', t: 'service@siemens-repair.ru', s: 'Ответим в течение часа' },
                 { icon: 'MapPin', t: 'Москва, ул. Примерная, 12', s: 'Ежедневно 8:00 – 22:00' },
               ].map((c) => (
@@ -528,7 +528,7 @@ const Index = () => {
           <div>
             <h4 className="font-display font-bold text-white">Контакты</h4>
             <ul className="mt-3 space-y-2 text-sm">
-              <li>8 800 123-45-67</li>
+              <li>7 (499) 638-27-51</li>
               <li>service@siemens-repair.ru</li>
               <li>Москва, ул. Примерная, 12</li>
             </ul>
