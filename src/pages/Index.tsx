@@ -19,6 +19,7 @@ const HERO_IMG =
   'https://cdn.poehali.dev/projects/6737e19d-4ad6-4e45-999c-e2ac4aa0d438/files/81f896dc-1100-4eb9-9b72-e14a6972389c.jpg';
 
 const navLinks = [
+  { label: 'Главная', href: '#' },
   { label: 'Услуги', href: '#services' },
   { label: 'Портфолио', href: '#portfolio' },
   { label: 'О компании', href: '#about' },
