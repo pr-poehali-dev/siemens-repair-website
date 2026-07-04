@@ -193,7 +193,7 @@ const Index = () => {
           <div className="animate-fade-in">
             <span className="inline-flex items-center gap-2 rounded-full bg-siemens-light px-4 py-1.5 text-sm font-semibold text-siemens-dark">
               <Icon name="BadgeCheck" size={16} />
-              Центральный сервис · 12 лет опыта
+              Центральный сервис
             </span>
             <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-siemens-dark text-balance sm:text-5xl lg:text-6xl">
               Ремонт техники Siemens с гарантией до 2 лет
