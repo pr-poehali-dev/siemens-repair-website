@@ -54,7 +54,7 @@ def send_telegram(req_id: str, appliance: str) -> None:
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     data = urllib.parse.urlencode({'chat_id': chat_id, 'text': text}).encode()
     req = urllib.request.Request(url, data=data)
-    urllib.request.urlopen(req, timeout=10)
+    urllib.request.urlopen(req, timeout=5)
 
 
 def handler(event, context):
@@ -102,8 +102,23 @@ def handler(event, context):
     # Номер заявки формируем на лету по времени запроса — данные никуда не сохраняются
     req_id = str(int(time.time()))[-6:]
 
-    send_email(req_id, name, phone, appliance, message)
-    send_telegram(req_id, appliance)
+    email_sent = True
+    try:
+        send_email(req_id, name, phone, appliance, message)
+    except Exception:
+        email_sent = False
+
+    try:
+        send_telegram(req_id, appliance)
+    except Exception:
+        pass
+
+    if not email_sent:
+        return {
+            'statusCode': 502,
+            'headers': {**cors, 'Content-Type': 'application/json'},
+            'body': json.dumps({'error': 'Не удалось отправить заявку, попробуйте позже'}),
+        }
 
     return {
         'statusCode': 200,
