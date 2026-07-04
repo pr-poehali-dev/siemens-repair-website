@@ -4,6 +4,7 @@ import Icon from '@/components/ui/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import {
   Accordion,
@@ -75,6 +76,7 @@ const faq = [
 
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
   const [form, setForm] = useState({ name: '', phone: '', appliance: '', message: '' });
   const [loading, setLoading] = useState(false);
@@ -98,6 +100,7 @@ const Index = () => {
       if (!res.ok) throw new Error('fail');
       toast({ title: 'Заявка отправлена!', description: 'Перезвоним в течение 5 минут.' });
       setForm({ name: '', phone: '', appliance: '', message: '' });
+      setDialogOpen(false);
     } catch {
       toast({
         title: 'Не удалось отправить',
@@ -108,6 +111,47 @@ const Index = () => {
       setLoading(false);
     }
   };
+
+  const requestForm = (
+    <form className="space-y-4" onSubmit={handleSubmit}>
+      <Input
+        placeholder="Ваше имя"
+        value={form.name}
+        onChange={(e) => updateField('name', e.target.value)}
+      />
+      <Input
+        placeholder="Телефон"
+        type="tel"
+        value={form.phone}
+        onChange={(e) => updateField('phone', e.target.value)}
+      />
+      <Input
+        placeholder="Модель техники (необязательно)"
+        value={form.appliance}
+        onChange={(e) => updateField('appliance', e.target.value)}
+      />
+      <Textarea
+        placeholder="Опишите неисправность"
+        rows={3}
+        value={form.message}
+        onChange={(e) => updateField('message', e.target.value)}
+      />
+      <Button
+        type="submit"
+        size="lg"
+        disabled={loading}
+        className="w-full bg-siemens text-base font-semibold hover:bg-siemens-dark"
+      >
+        {loading ? 'Отправляем…' : 'Отправить заявку'}
+      </Button>
+      <p className="text-xs leading-snug text-muted-foreground">
+        Нажимая на кнопку, вы даёте согласие на обработку персональных данных и принимаете{' '}
+        <Link to="/privacy" className="text-siemens underline hover:text-siemens-dark">
+          политику конфиденциальности
+        </Link>
+      </p>
+    </form>
+  );
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -142,9 +186,21 @@ const Index = () => {
                 7 (499) 638-27-51
               </span>
             </a>
-            <Button asChild className="hidden bg-siemens font-semibold hover:bg-siemens-dark sm:inline-flex">
-              <a href="#contacts">Вызвать мастера</a>
-            </Button>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="hidden bg-siemens font-semibold hover:bg-siemens-dark sm:inline-flex">
+                  Вызвать мастера
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="font-display text-xl font-bold text-siemens-dark">
+                    Вызвать мастера
+                  </DialogTitle>
+                </DialogHeader>
+                {requestForm}
+              </DialogContent>
+            </Dialog>
             <button
               className="lg:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -455,45 +511,8 @@ const Index = () => {
           </div>
 
           <div className="rounded-3xl bg-background p-8 shadow-2xl">
-            <h3 className="font-display text-xl font-bold text-siemens-dark">Вызвать мастера</h3>
-            <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-              <Input
-                placeholder="Ваше имя"
-                value={form.name}
-                onChange={(e) => updateField('name', e.target.value)}
-              />
-              <Input
-                placeholder="Телефон"
-                type="tel"
-                value={form.phone}
-                onChange={(e) => updateField('phone', e.target.value)}
-              />
-              <Input
-                placeholder="Модель техники (необязательно)"
-                value={form.appliance}
-                onChange={(e) => updateField('appliance', e.target.value)}
-              />
-              <Textarea
-                placeholder="Опишите неисправность"
-                rows={3}
-                value={form.message}
-                onChange={(e) => updateField('message', e.target.value)}
-              />
-              <Button
-                type="submit"
-                size="lg"
-                disabled={loading}
-                className="w-full bg-siemens text-base font-semibold hover:bg-siemens-dark"
-              >
-                {loading ? 'Отправляем…' : 'Отправить заявку'}
-              </Button>
-              <p className="text-xs leading-snug text-muted-foreground">
-                Нажимая на кнопку, вы даёте согласие на обработку персональных данных и принимаете{' '}
-                <Link to="/privacy" className="text-siemens underline hover:text-siemens-dark">
-                  политику конфиденциальности
-                </Link>
-              </p>
-            </form>
+            <h3 className="mb-6 font-display text-xl font-bold text-siemens-dark">Вызвать мастера</h3>
+            {requestForm}
           </div>
         </div>
       </section>
