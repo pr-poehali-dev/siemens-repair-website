@@ -2,16 +2,15 @@ import json
 import os
 import smtplib
 import ssl
+import time
 import urllib.request
 import urllib.parse
 from email.mime.text import MIMEText
 from email.header import Header
 from datetime import datetime
 
-import psycopg2
 
-
-def send_email(req_id: int, name: str, phone: str, appliance: str, message: str) -> None:
+def send_email(req_id: str, name: str, phone: str, appliance: str, message: str) -> None:
     host = os.environ['SMTP_HOST']
     port = int(os.environ.get('SMTP_PORT', '465'))
     user = os.environ['SMTP_USER']
@@ -38,7 +37,7 @@ def send_email(req_id: int, name: str, phone: str, appliance: str, message: str)
         server.sendmail(user, [mail_to], msg.as_string())
 
 
-def send_telegram(req_id: int, appliance: str) -> None:
+def send_telegram(req_id: str, appliance: str) -> None:
     token = os.environ.get('TELEGRAM_BOT_TOKEN')
     chat_id = os.environ.get('TELEGRAM_CHAT_ID')
     if not token or not chat_id:
@@ -59,7 +58,7 @@ def send_telegram(req_id: int, appliance: str) -> None:
 
 
 def handler(event, context):
-    '''Принимает заявку с формы ремонта Siemens: сохраняет в БД, отправляет полные данные на почту (РФ) и обезличенное уведомление в Telegram.'''
+    '''Принимает заявку с формы ремонта Siemens: отправляет полные данные напрямую на почту (РФ) и обезличенное уведомление в Telegram. Персональные данные нигде не сохраняются — ни в базе данных, ни на диске.'''
     method = event.get('httpMethod', 'GET')
 
     cors = {
@@ -100,21 +99,8 @@ def handler(event, context):
             'body': json.dumps({'error': 'Необходимо согласие на обработку персональных данных'}),
         }
 
-    db_schema = os.environ.get('MAIN_DB_SCHEMA', 'public')
-
-    conn = psycopg2.connect(os.environ['DATABASE_URL'])
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            f"INSERT INTO {db_schema}.requests (name, phone, appliance, message, consent) "
-            f"VALUES (%s, %s, %s, %s, %s) RETURNING id",
-            (name, phone, appliance, message, consent),
-        )
-        req_id = cur.fetchone()[0]
-        conn.commit()
-        cur.close()
-    finally:
-        conn.close()
+    # Номер заявки формируем на лету по времени запроса — данные никуда не сохраняются
+    req_id = str(int(time.time()))[-6:]
 
     send_email(req_id, name, phone, appliance, message)
     send_telegram(req_id, appliance)
