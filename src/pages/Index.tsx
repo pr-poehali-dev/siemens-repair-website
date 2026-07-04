@@ -217,7 +217,7 @@ const Index = () => {
               {[
                 { n: '12 000+', t: 'ремонтов' },
                 { n: '4.9', t: 'рейтинг клиентов' },
-                { n: '9:00–22:00', t: 'приём заявок без выходных' },
+                { n: '9:00–22:00', t: 'без выходных' },
               ].map((s) => (
                 <div key={s.t}>
                   <div className="font-display text-3xl font-extrabold text-siemens">{s.n}</div>
