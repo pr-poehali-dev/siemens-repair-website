@@ -54,7 +54,16 @@ def send_telegram(req_id: str, appliance: str) -> None:
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     data = urllib.parse.urlencode({'chat_id': chat_id, 'text': text}).encode()
     req = urllib.request.Request(url, data=data)
-    urllib.request.urlopen(req, timeout=5)
+    last_error = None
+    for _ in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                resp.read()
+            return
+        except Exception as e:
+            last_error = e
+    if last_error:
+        raise last_error
 
 
 def handler(event, context):
@@ -110,8 +119,8 @@ def handler(event, context):
 
     try:
         send_telegram(req_id, appliance)
-    except Exception:
-        pass
+    except Exception as e:
+        print(f'Telegram send failed: {e}')
 
     if not email_sent:
         return {
