@@ -246,12 +246,22 @@ const Index = () => {
               Выезд мастера в день обращения, оригинальные запчасти, честные цены.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg" className="bg-siemens text-base font-semibold hover:bg-siemens-dark">
-                <a href="#contacts">
-                  <Icon name="Wrench" size={20} className="mr-1" />
-                  Вызвать мастера
-                </a>
-              </Button>
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button size="lg" className="bg-siemens text-base font-semibold hover:bg-siemens-dark">
+                    <Icon name="Wrench" size={20} className="mr-1" />
+                    Вызвать мастера
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="font-display text-xl font-bold text-siemens-dark">
+                      Вызвать мастера
+                    </DialogTitle>
+                  </DialogHeader>
+                  {requestForm}
+                </DialogContent>
+              </Dialog>
               <Button asChild size="lg" variant="outline" className="border-siemens text-base font-semibold text-siemens-dark hover:bg-siemens-light">
                 <a href="tel:+74996382751">7 (499) 638-27-51</a>
               </Button>
