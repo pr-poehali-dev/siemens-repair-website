@@ -271,7 +271,7 @@ const Index = () => {
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-sm font-bold uppercase tracking-widest text-siemens">Услуги</span>
           <h2 className="mt-3 font-display text-3xl font-extrabold text-siemens-dark sm:text-4xl">
-            Ремонтируем всю технику Siemens
+            Ремонтируем только технику Siemens
           </h2>
           <p className="mt-4 text-muted-foreground">
             Диагностика бесплатно при ремонте. Чиним на дому в день обращения.
