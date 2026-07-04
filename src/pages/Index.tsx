@@ -24,7 +24,6 @@ const navLinks = [
   { label: 'Портфолио', href: '#portfolio' },
   { label: 'О компании', href: '#about' },
   { label: 'Отзывы', href: '#reviews' },
-  { label: 'Блог', href: '#blog' },
   { label: 'FAQ', href: '#faq' },
   { label: 'Контакты', href: '#contacts' },
 ];
@@ -65,12 +64,6 @@ const reviews = [
   { name: 'Анна К.', text: 'Стиралка перестала отжимать вечером — мастер приехал на следующее утро, починил за час. Всё прозрачно по цене.', rating: 5 },
   { name: 'Дмитрий В.', text: 'Духовка Siemens перестала держать температуру. Привезли оригинальный ТЭН, поставили, дали гарантию 2 года. Рекомендую.', rating: 5 },
   { name: 'Марина С.', text: 'Посудомойка текла снизу. Диагностику сделали бесплатно, всё объяснили. Аккуратные, вежливые ребята.', rating: 5 },
-];
-
-const blog = [
-  { tag: 'Стиральные машины', title: 'Что означают коды ошибок Siemens E18, F23, F43', date: '12 июня 2026' },
-  { tag: 'Уход', title: 'Как продлить срок службы посудомоечной машины Siemens', date: '4 июня 2026' },
-  { tag: 'Холодильники', title: 'No Frost обмерзает: 5 частых причин и решений', date: '28 мая 2026' },
 ];
 
 const faq = [
@@ -418,38 +411,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Blog */}
-      <section id="blog" className="border-y border-border bg-secondary/40">
-        <div className="container py-20">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="text-sm font-bold uppercase tracking-widest text-siemens">Блог</span>
-            <h2 className="mt-3 font-display text-3xl font-extrabold text-siemens-dark sm:text-4xl">
-              Полезные статьи о технике Siemens
-            </h2>
-          </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {blog.map((b) => (
-              <a
-                key={b.title}
-                href="#blog"
-                className="hover-lift group block rounded-2xl border border-border bg-card p-7"
-              >
-                <span className="inline-block rounded-full bg-siemens-light px-3 py-1 text-xs font-semibold text-siemens-dark">
-                  {b.tag}
-                </span>
-                <h3 className="mt-4 font-display text-lg font-bold text-siemens-dark group-hover:text-siemens">
-                  {b.title}
-                </h3>
-                <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-                  <span>{b.date}</span>
-                  <Icon name="ArrowRight" size={16} className="text-siemens" />
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* FAQ */}
       <section id="faq" className="container py-20">
         <div className="mx-auto max-w-3xl">
@@ -577,7 +538,6 @@ const Index = () => {
               <li><a href="#about" className="hover:text-white">О нас</a></li>
               <li><a href="#portfolio" className="hover:text-white">Портфолио</a></li>
               <li><a href="#reviews" className="hover:text-white">Отзывы</a></li>
-              <li><a href="#blog" className="hover:text-white">Блог</a></li>
             </ul>
           </div>
           <div>
