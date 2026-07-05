@@ -104,7 +104,7 @@ const Index = () => {
     } catch {
       toast({
         title: 'Не удалось отправить',
-        description: 'Позвоните нам: 7 (499) 638-27-51',
+        description: 'Позвоните нам: 8 (4996) 38-27-51',
         variant: 'destructive',
       });
     } finally {
@@ -180,10 +180,10 @@ const Index = () => {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a href="tel:+74996382751" className="hidden text-right md:block">
+            <a href="tel:74996382751" className="hidden text-right md:block">
               <span className="block text-xs text-muted-foreground">Звоните сейчас</span>
               <span className="block font-display text-base font-bold text-siemens-dark">
-                7 (499) 638-27-51
+                8 (4996) 38-27-51
               </span>
             </a>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -263,7 +263,7 @@ const Index = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-siemens text-base font-semibold text-siemens-dark hover:bg-siemens-light">
-                <a href="tel:+74996382751">7 (499) 638-27-51</a>
+                <a href="tel:74996382751">8 (4996) 38-27-51</a>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
@@ -505,7 +505,7 @@ const Index = () => {
             </p>
             <div className="mt-10 space-y-5">
               {[
-                { icon: 'Phone', t: '7 (499) 638-27-51', s: 'Бесплатно по России' },
+                { icon: 'Phone', t: '8 (4996) 38-27-51', s: 'Бесплатно по России' },
               ].map((c) => (
                 <div key={c.t} className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/15">
@@ -555,7 +555,7 @@ const Index = () => {
           <div>
             <h4 className="font-display font-bold text-white">Контакты</h4>
             <ul className="mt-3 space-y-2 text-sm">
-              <li>7 (499) 638-27-51</li>
+              <li>8 (4996) 38-27-51</li>
             </ul>
           </div>
         </div>
