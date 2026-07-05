@@ -180,7 +180,7 @@ const Index = () => {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a href="tel:74996382751" className="hidden text-right md:block">
+            <a href="tel:74996382751" className="mgo-number hidden text-right md:block">
               <span className="block text-xs text-muted-foreground">Звоните сейчас</span>
               <span className="block font-display text-base font-bold text-siemens-dark">
                 8 (4996) 38-27-51
@@ -263,7 +263,7 @@ const Index = () => {
                 </DialogContent>
               </Dialog>
               <Button asChild size="lg" variant="outline" className="border-siemens text-base font-semibold text-siemens-dark hover:bg-siemens-light">
-                <a href="tel:74996382751">8 (4996) 38-27-51</a>
+                <a href="tel:74996382751" className="mgo-number">8 (4996) 38-27-51</a>
               </Button>
             </div>
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
