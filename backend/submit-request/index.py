@@ -37,11 +37,34 @@ def send_email(req_id: str, name: str, phone: str, appliance: str, message: str)
         server.sendmail(user, [mail_to], msg.as_string())
 
 
-def send_telegram(req_id: str, appliance: str) -> None:
+def send_telegram_to_chat(token: str, chat_id: str, text: str) -> None:
+    url = f'https://api.telegram.org/bot{token}/sendMessage'
+    data = urllib.parse.urlencode({'chat_id': chat_id, 'text': text}).encode()
+    last_error = None
+    for _ in range(3):
+        try:
+            req = urllib.request.Request(url, data=data)
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                resp.read()
+            return
+        except Exception as e:
+            last_error = e
+    if last_error:
+        raise last_error
+
+
+def send_telegram(req_id: str, appliance: str) -> list:
+    '''Рассылает уведомление во все настроенные Telegram-чаты независимо друг от друга.
+    Возвращает список ошибок (по одной на неудачный чат), не прерывая отправку остальным.'''
     token = os.environ.get('TELEGRAM_BOT_TOKEN')
-    chat_id = os.environ.get('TELEGRAM_CHAT_ID')
-    if not token or not chat_id:
-        return
+    chat_ids = [
+        c for c in [
+            os.environ.get('TELEGRAM_CHAT_ID'),
+            os.environ.get('TELEGRAM_CHAT_ID_2'),
+        ] if c
+    ]
+    if not token or not chat_ids:
+        return []
 
     appliance_text = appliance if appliance else 'техника не указана'
     text = (
@@ -51,19 +74,13 @@ def send_telegram(req_id: str, appliance: str) -> None:
         f"Личные данные клиента отправлены на почту."
     )
 
-    url = f'https://api.telegram.org/bot{token}/sendMessage'
-    data = urllib.parse.urlencode({'chat_id': chat_id, 'text': text}).encode()
-    req = urllib.request.Request(url, data=data)
-    last_error = None
-    for _ in range(3):
+    errors = []
+    for chat_id in chat_ids:
         try:
-            with urllib.request.urlopen(req, timeout=8) as resp:
-                resp.read()
-            return
+            send_telegram_to_chat(token, chat_id, text)
         except Exception as e:
-            last_error = e
-    if last_error:
-        raise last_error
+            errors.append(f'chat_id={chat_id}: {e}')
+    return errors
 
 
 def handler(event, context):
@@ -118,7 +135,9 @@ def handler(event, context):
         email_sent = False
 
     try:
-        send_telegram(req_id, appliance)
+        telegram_errors = send_telegram(req_id, appliance)
+        for err in telegram_errors:
+            print(f'Telegram send failed: {err}')
     except Exception as e:
         print(f'Telegram send failed: {e}')
 
