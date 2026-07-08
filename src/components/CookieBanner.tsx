@@ -23,7 +23,8 @@ const CookieBanner = () => {
     <div className="fixed inset-x-0 bottom-0 z-[100] border-t border-border bg-background/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
       <div className="container flex flex-col items-center gap-4 py-5 sm:flex-row sm:justify-between">
         <p className="text-sm text-muted-foreground">
-          Мы используем файлы cookie для улучшения работы сайта. Продолжая пользоваться сайтом, вы соглашаетесь с{' '}
+          Мы используем файлы cookie и сервисы аналитики (Яндекс.Метрика, Botfaqtor, Манго Телеком)
+          для улучшения работы сайта. Продолжая пользоваться сайтом, вы соглашаетесь с{' '}
           <Link to="/privacy" className="text-siemens underline hover:text-siemens-dark">
             политикой конфиденциальности
           </Link>
